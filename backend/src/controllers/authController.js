@@ -1,4 +1,5 @@
-import User from "../models/User";
+import { upsertStreamUser } from "../lib/stream.js";
+import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 export async function signup(req, res,next ) {
@@ -17,12 +18,12 @@ export async function signup(req, res,next ) {
       return res.status(400).json({ message: 'Invalid email format' });
     }
 
-    const existingUser = await User.find({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'Email already registered, please try another' });
     }
 
-    const idx = math.floor(Math.random() * 100)+1;
+    const idx = Math.floor(Math.random() * 100)+1;
     const randomAvtar = `https://avatar.iran.liara.run/public/${idx}.png`;
 
     const newUser = await User.create({
@@ -33,6 +34,16 @@ export async function signup(req, res,next ) {
     });
 
     //Create user in Stream
+    try{
+      await upsertStreamUser({
+        id: newUser._id.toString(),
+        name: newUser.fullname,
+        image: newUser.profilePicture || ""
+      });
+      console.log('Stream user created for ', newUser.fullname);
+    }catch (error) {
+      console.error('Error creating Stream user:', error);
+    }
 
 
     const token = jwt.sign({userId: newUser._id}, process.env.JWT_SECRET, {expiresIn: '7d'});  
@@ -105,6 +116,6 @@ export function logout(req, res, next) {
 
 export default {
   signup,
-  signin,
+  login,
   logout
 };
