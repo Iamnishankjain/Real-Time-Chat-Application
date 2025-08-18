@@ -140,6 +140,17 @@ export async function onboard(req, res, next) {
     }
 
     //Update user in Stream
+    try{
+      await upsertStreamUser({
+        id: updatedUser._id.toString(),
+        name: updatedUser.fullName,
+        image: updatedUser.profilePicture || "",
+      });
+      console.log('Stream user updated for ', updatedUser.fullName);
+    }catch (error) {
+      console.error('Error updating Stream user:', error);
+    }
+
 
     res.status(200).json({
       success: true,
