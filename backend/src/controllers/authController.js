@@ -3,10 +3,10 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 export async function signup(req, res,next ) {
-  const {fullname, email, password } = req.body;
+  const {fullName, email, password } = req.body;
   try{
 
-    if (!fullname || !email || !password) {
+    if (!fullName || !email || !password) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
@@ -27,7 +27,7 @@ export async function signup(req, res,next ) {
     const randomAvtar = `https://avatar.iran.liara.run/public/${idx}.png`;
 
     const newUser = await User.create({
-      fullname,
+      fullName,
       email,
       password,
       profilePicture: randomAvtar,
@@ -37,10 +37,10 @@ export async function signup(req, res,next ) {
     try{
       await upsertStreamUser({
         id: newUser._id.toString(),
-        name: newUser.fullname,
+        name: newUser.fullName,
         image: newUser.profilePicture || ""
       });
-      console.log('Stream user created for ', newUser.fullname);
+      console.log('Stream user created for ', newUser.fullName);
     }catch (error) {
       console.error('Error creating Stream user:', error);
     }
@@ -114,8 +114,47 @@ export function logout(req, res, next) {
   });
 }
 
+export async function onboard(req, res, next) {
+  try{
+    const userId = req.user._id;
+    const {fullName, bio, nativeLanguage, learningLanguage, location } = req.body;
+    if(!fullName || !bio || !nativeLanguage || !learningLanguage || !location) {
+      return res.status(400).json({
+         message: 'All fields are required',
+         missingFields:[
+          !fullName && 'fullName',
+          !bio && 'bio', 
+          !nativeLanguage && 'nativeLanguage',
+          !learningLanguage && 'learningLanguage',
+          !location && 'location'
+         ],
+        });
+    }
+    const updatedUser = await User.findByIdAndUpdate(userId, {
+      ...req.body,
+      isOnboarded: true
+    },{ new: true});
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    //Update user in Stream
+
+    res.status(200).json({
+      success: true,
+      message: 'Onboarding successful',
+      user: updatedUser
+    });
+
+  }catch (error) {
+    console.error('Error during onboarding:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 export default {
   signup,
   login,
-  logout
+  logout,
+  onboard
 };
