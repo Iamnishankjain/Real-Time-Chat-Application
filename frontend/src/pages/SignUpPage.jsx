@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useQueryClient,useMutation } from "@tanstack/react-query";
+import { axiosInstance } from "../lib/axios.js";
 
 const SignUpPage = () => {
   const [signUpData, setSignUpData] = useState({
@@ -9,9 +11,22 @@ const SignUpPage = () => {
     password: "",
   });
 
+  const queryClient = useQueryClient();
+
+  // Function to handle sign up
+  const {mutate,isPending,error} = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post("/auth/signup", signUpData);
+      return response.data;
+    },
+    onSuccess: () => queryClient.invalidateQueries({queryKey: ["authUser"]}),
+  });
+
+
   const handleSignUp = (e) => {
     e.preventDefault();
     // Handle sign up logic here
+    mutate();
   };
 
   return (
@@ -123,7 +138,7 @@ const SignUpPage = () => {
                   type="submit"
                   className="btn bg-indigo-500 hover:bg-indigo-600 text-white w-full"
                 >
-                  Create Account
+                  {isPending ? "Signing Up..." : "Sign Up"}
                 </button>
                 <div className="text-center mt-4">
                   <p className="text-sm">
