@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useQueryClient,useMutation } from "@tanstack/react-query";
-import { axiosInstance } from "../lib/axios.js";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { signup } from "../lib/api.js";
 
 const SignUpPage = () => {
@@ -15,16 +14,19 @@ const SignUpPage = () => {
   const queryClient = useQueryClient();
 
   // Function to handle sign up
-  const {mutate,isPending,error} = useMutation({
+  const {
+    mutate: signupMutation,
+    isPending,
+    error,
+  } = useMutation({
     mutationFn: signup,
-    onSuccess: () => queryClient.invalidateQueries({queryKey: ["authUser"]}),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
   });
-
 
   const handleSignUp = (e) => {
     e.preventDefault();
     // Handle sign up logic here
-    mutate(signUpData);
+    signupMutation(signUpData);
   };
 
   return (
@@ -42,6 +44,13 @@ const SignUpPage = () => {
               ChatBridge
             </span>
           </div>
+
+          {/* Error Message if any in signup */}
+          {error && (
+            <div className="alert alert-error shadow-lg mb-4">
+              <span>{error.response.data.message}</span>
+            </div>
+          )}
 
           <div className="w-full">
             <form onSubmit={handleSignUp}>
@@ -136,7 +145,15 @@ const SignUpPage = () => {
                   type="submit"
                   className="btn bg-indigo-500 hover:bg-indigo-600 text-white w-full"
                 >
-                  {isPending ? "Signing Up..." : "Sign Up"}
+                  {isPending ? (
+                    <>
+                      <span className="loading loading-spinner loading-xs">
+                        Loading...
+                      </span>
+                    </>
+                  ) : (
+                    "Create Account"
+                  )}
                 </button>
                 <div className="text-center mt-4">
                   <p className="text-sm">
