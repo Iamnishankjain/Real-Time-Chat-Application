@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+
 const SignUpPage = () => {
   const [signUpData, setSignUpData] = useState({
     fullName: "",
@@ -18,13 +19,13 @@ const SignUpPage = () => {
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
       data-theme="forest"
     >
-      <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
-      {/* Left Side - SignUp*/}
+      <div className="border border-indigo-500/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
+        {/* Left Side - SignUp*/}
         <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
           {/* LOGO */}
           <div className="mb-4 flex items-center justify-start gap-2">
-            <ShipWheelIcon className="size-9 text-primary" />
-            <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
+            <ShipWheelIcon className="size-9 text-indigo-500" />
+            <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-indigo-300 tracking-wider">
               ChatBridge
             </span>
           </div>
@@ -35,8 +36,8 @@ const SignUpPage = () => {
                 <div>
                   <h2 className="text-xl font-semibold">Create an Account</h2>
                   <p className="text-sm opacity-70">
-                    Join ChatBridge to connect with friends and family.and enjoy
-                    seamless communication.
+                    Join ChatBridge to connect with friends and family, and
+                    enjoy seamless communication.
                   </p>
                 </div>
                 <div className="space-y-3">
@@ -48,7 +49,7 @@ const SignUpPage = () => {
                     <input
                       type="text"
                       placeholder="Enter the name"
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full border-indigo-500 focus:border-indigo-600"
                       value={signUpData.fullName}
                       onChange={(e) =>
                         setSignUpData({
@@ -67,7 +68,7 @@ const SignUpPage = () => {
                     <input
                       type="email"
                       placeholder="example@gmail.com"
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full border-indigo-500 focus:border-indigo-600"
                       value={signUpData.email}
                       onChange={(e) =>
                         setSignUpData({ ...signUpData, email: e.target.value })
@@ -83,7 +84,7 @@ const SignUpPage = () => {
                     <input
                       type="password"
                       placeholder="*********"
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full border-indigo-500 focus:border-indigo-600"
                       value={signUpData.password}
                       onChange={(e) =>
                         setSignUpData({
@@ -93,7 +94,7 @@ const SignUpPage = () => {
                       }
                       required
                     />
-                    <p className="text-x5 opacity-70 mt-1">
+                    <p className="text-xs opacity-70 mt-1">
                       Password must be at least 6 characters long.
                     </p>
                   </div>
@@ -101,18 +102,16 @@ const SignUpPage = () => {
                     <label className="label cursor-pointer justify-start gap-2">
                       <input
                         type="checkbox"
-                        className="checkbox checkbox-sm"
+                        className="checkbox checkbox-sm border-indigo-500"
                         required
                       />
                       <span className="text-xs leading-tight">
                         I agree to the{" "}
-                        <span className="text-primary hover:underline">
-                          {" "}
+                        <span className="text-indigo-500 hover:underline">
                           Terms of Service
                         </span>{" "}
                         and{" "}
-                        <span className="text-primary hover:underline">
-                          {" "}
+                        <span className="text-indigo-500 hover:underline">
                           Privacy Policy
                         </span>
                         .
@@ -120,19 +119,48 @@ const SignUpPage = () => {
                     </label>
                   </div>
                 </div>
-                <button type="submit" className="btn btn-primary w-full">
+                <button
+                  type="submit"
+                  className="btn bg-indigo-500 hover:bg-indigo-600 text-white w-full"
+                >
                   Create Account
                 </button>
                 <div className="text-center mt-4">
                   <p className="text-sm">
                     Already have an account?{" "}
-                    <Link to="/login" className="text-primary hover:underline">
+                    <Link
+                      to="/login"
+                      className="text-indigo-500 hover:underline"
+                    >
                       Log In
                     </Link>
                   </p>
                 </div>
               </div>
             </form>
+          </div>
+        </div>
+
+        {/* Right Side - Image or Illustration */}
+        <div className="hidden lg:flex w-full lg:w-1/2 bg-indigo-500/10 items-center justify-center">
+          <div className="max-w-md p-8">
+            <div className="relative aspect-square max-w-sm mx-auto">
+              <img
+                src="/Video-call-hero.png"
+                alt="language connection"
+                className="w-full h-full"
+              />
+            </div>
+            <div className="text-center space-y-3 mt-6">
+              <h2 className="text-xl font-semibold">
+                Connect with language partners worldwide
+              </h2>
+              <p className="opacity-70">
+                Join a global community of language learners and native
+                speakers. Practice speaking, listening, and writing with real
+                people.
+              </p>
+            </div>
           </div>
         </div>
       </div>
