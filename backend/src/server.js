@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 dotenv.config();
 
@@ -9,7 +10,14 @@ import chatRoutes from './routes/chatRoutes.js';
 import { connectDB } from './lib/db.js';
 
 
+
 const app = express();
+app.use(cors(
+  {
+    origin: 'http://localhost:5173', // Adjust this to your frontend URL
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  }
+));
 const PORT = process.env.PORT;
 
 app.use(express.json());
