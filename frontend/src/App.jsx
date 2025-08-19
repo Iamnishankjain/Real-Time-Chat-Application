@@ -12,18 +12,18 @@ import CallPage from './pages/CallPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 
 import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 
 const App = () => {
   const {data,isLoading,error} = useQuery({queryKey: ["todos"],
     
     queryFn: async () => {
-      const response = await fetch("https://jsonplaceholder.typicode.com/todos")
-      const data = await response.json()
-      return data;
+      const response = await axios.get("https://jsonplaceholder.typicode.com/todos")
+      return response.data;
     }
   })
-  console.log(data, isLoading, error);
+  console.log({data, isLoading, error});
 
   return (
     <div className="h-screen" data-theme="night">
