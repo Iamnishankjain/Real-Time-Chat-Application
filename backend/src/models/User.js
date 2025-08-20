@@ -29,15 +29,15 @@ const userSchema = new mongoose.Schema({
   },
   nativeLanguage: {
     type: String,
-    default: "English",
+    default: "english",
   },
   learningLanguage: {
     type: String,
-    default: "English",
+    default: "english",
   },
   location: {
     type: String,
-    default: "Not specified",
+    default: "",
   },
   isOnboarded: {
     type: Boolean,
