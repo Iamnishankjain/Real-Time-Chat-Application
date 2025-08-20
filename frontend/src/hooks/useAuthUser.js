@@ -7,6 +7,6 @@ const useAuthUser = () => {
     queryFn: getAuthUser,
     retry: false,  // auth checks should not retry because it can cause unauthenticated access
   });
-  const {isLoading: authUser.isLoading, authUser: authUser.data?.user};
+  return {isLoading: authUser.isLoading, authUser: authUser.data?.user };
 }
 export default useAuthUser;
