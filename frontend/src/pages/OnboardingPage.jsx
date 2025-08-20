@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useAuthUser from "../hooks/useAuthUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { completeOnboarding } from "../lib/api";
-import { CameraIcon, MapPinIcon, Shuffle, ShuffleIcon } from "lucide-react";
+import { CameraIcon, LoaderPinwheelIcon, MapPinIcon, ShipWheelIcon, Shuffle, ShuffleIcon } from "lucide-react";
 import { toast } from "react-hot-toast";
 import {LANGUAGES} from '../constants/index'
 
@@ -21,11 +21,14 @@ const OnboardingPage = () => {
   });
 
   const { mutate: onboardingMutation, isPending } = useMutation({
-    mutateFn: completeOnboarding,
+    mutationFn: completeOnboarding,
     onSuccess: () => {
       toast.success("Profile Onboarding successfully!");
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
+    onError: (error) =>{
+      toast.error(error?.response?.data?.message || "something wrong");
+    }
   });
 
   const handleSubmit = (e) => {
@@ -34,13 +37,19 @@ const OnboardingPage = () => {
     onboardingMutation(formState);
   };
 
-  const handleRandomAvtar = () => {};
+  const handleRandomAvtar = () => {
+    const idx = Math.floor(Math.random()*100)+1;
+    const randomAvtar=`https://avatar.iran.liara.run/public/${idx}.png`;
+
+    setFormState({...formState,profilePicture: randomAvtar});
+    toast.success("Avtar Changed successfully");
+  };
 
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center p-4">
       <div className="card bg-base-200 w-full max-w-3xl shadow-xl ">
         <div className="card-body p-6 sm:p-8">
-          <h1 className="text-2xl sm:test-3xl font-bold text-center mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
             Complete Your Profile
           </h1>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -82,7 +91,7 @@ const OnboardingPage = () => {
                 </label>
                 <input
                   type="text"
-                  name="fullname"
+                  name="fullName"
                   value={formState.fullName}
                   onChange={(e) =>
                     setFormState({ ...formState, fullName: e.target.value })
@@ -118,7 +127,7 @@ const OnboardingPage = () => {
                   <select name="nativeLanguage"
                   value={formState.nativeLanguage}
                   onChange={(e)=>setFormState({...formState,nativeLanguage: e.target.value})} className="select select-bordered w-full">
-                    <option value="value">Select your native language</option>
+                    <option value="">Select your native language</option>
                     {LANGUAGES.map((lang)=>(
                       <option key={`native-${lang}`} value={lang.toLowerCase()}>{lang}</option>
                     ))}
@@ -133,7 +142,7 @@ const OnboardingPage = () => {
                   <select name="learningLanguage"
                   value={formState.learningLanguage}
                   onChange={(e)=>setFormState({...formState,learningLanguage: e.target.value})} className="select select-bordered w-full">
-                    <option value="value">Select your learning language</option>
+                    <option value="">Select your learning language</option>
                     {LANGUAGES.map((lang)=>(
                       <option key={`learning-${lang}`} value={lang.toLowerCase()}>{lang}</option>
                     ))}
@@ -141,6 +150,7 @@ const OnboardingPage = () => {
                 </div>
               </div>
 
+              {/*Location */}
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Location</span>
@@ -154,6 +164,20 @@ const OnboardingPage = () => {
                   placeholder="City,Country"/>
                 </div>
               </div>
+
+              {/*button to complete onboarding */}
+              <button className="btn btn-primary w-full" disabled={isPending} type="submit">
+                {!isPending ? (
+                  <>
+                  <ShipWheelIcon className="size-5 mr-2"/>
+                  Complete Onboarding
+                  </>
+                ) : (
+                  <>
+                  <LoaderPinwheelIcon className="animate-spin size-5 mr-2"/> Onboarding...
+                  </>
+                )}
+              </button>
           </form>
         </div>
       </div>
