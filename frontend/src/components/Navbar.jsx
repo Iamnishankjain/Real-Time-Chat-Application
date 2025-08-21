@@ -1,6 +1,6 @@
 import React from 'react'
 import useAuthUser from '../hooks/useAuthUser'
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { logout } from '../lib/api';
 import { Link } from 'react-router-dom';
@@ -15,7 +15,7 @@ const Navbar = () => {
 
   const {mutate: logoutMutation} = useMutation({
     mutationFn: logout,
-    onSuccess: () => queryClient.invalidateQueries({queryKey: authUser})
+    onSuccess: () => queryClient.invalidateQueries({queryKey: ["authUser"]})
   })
 
   return (
@@ -53,7 +53,6 @@ const Navbar = () => {
               <img src={authUser?.profilePicture} alt="User Avartar" rel="noreferrer" />
             </div>
           </div>
-
           {/*logout button */}
           <button className='btn btn-ghost btn-circle' onClick={logoutMutation}>
             <LogOutIcon className='h-6 w-6 text-base-content opacity-70' />
