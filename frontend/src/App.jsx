@@ -10,6 +10,8 @@ import ChatPage from "./pages/ChatPage.jsx";
 import CallPage from "./pages/CallPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import PageLoader from "./components/PageLoader.jsx";
+import Layout from "./components/Layout.jsx";
+
 
 // Custom hook to fetch authenticated user data
 import useAuthUser from "./hooks/useAuthUser.js";
@@ -27,7 +29,9 @@ const App = () => {
           path="/"
           element={
             isAuthenticated && isOnboarded ? (
-              <HomePage />
+              <Layout showSidebar={true}>
+                <HomePage />
+              </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
