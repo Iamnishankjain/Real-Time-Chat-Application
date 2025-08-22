@@ -12,10 +12,11 @@ import FriendCard, { getLanguageFlag } from "../components/FriendCard.jsx";
 import NoFriend from "../components/NoFriend.jsx";
 import NoRecommandedUsersFound from "../components/NoRecommandedUsersFound.jsx";
 
+
 const HomePage = () => {
   const queryClient = useQueryClient();
 
-  const [outgoingRequest, setOutgoingRequest] = useState([new Set()]);
+  const [outgoingRequest, setOutgoingRequest] = useState(new Set());
 
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
@@ -28,7 +29,7 @@ const HomePage = () => {
   });
 
   const { data: outgoingFriendReqs } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["outgoingFriendReqs"],
     queryFn: getOutgoingFriendReqs,
   });
 
@@ -68,9 +69,9 @@ const HomePage = () => {
           <NoFriend />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {friends.map((friend) => {
-              <FriendCard key={friend._id} friend={friend} />;
-            })}
+            {friends.map((friend) => (
+              <FriendCard key={friend._id} friend={friend} />
+            ))}
           </div>
         )}
 
@@ -100,7 +101,9 @@ const HomePage = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recommandedUsers.map((user) => {
-                const hasRequestBeenSent = outgoingFriendReqs.has(user._id);
+
+                const hasRequestBeenSent = outgoingRequest.has(user._id);
+
                 return (
                   <div
                     key={user._id}
@@ -129,11 +132,11 @@ const HomePage = () => {
                       <div className="flex flex-wrap gap-1.5 mb-3">
                         <span className="badge badge-secondary text-xs">
                           {getLanguageFlag(user.nativeLanguage)}
-                          Native: {capitialize(user.nativeLanguage)}
+                          Native: {capitalize(user.nativeLanguage)}
                         </span>
                         <span className="badge badge-secondary text-xs">
                           {getLanguageFlag(user.learningLanguage)}
-                          Learning: {capitialize(user.learningLanguage)}
+                          Learning: {capitalize(user.learningLanguage)}
                         </span>
                       </div>
 
@@ -174,4 +177,4 @@ const HomePage = () => {
 export default HomePage;
 
 
-const capitialize = (str) => str.charAt(0).toUpperCase()+str.slice(1);
+const capitalize = (str) => str.charAt(0).toUpperCase()+str.slice(1);
