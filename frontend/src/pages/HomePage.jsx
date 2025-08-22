@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getRecommandedUsers, getUserFriends } from '../lib/api.js';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getOutgoingFriendReqs, getRecommandedUsers, getUserFriends, sendFriendRequest } from '../lib/api.js';
 
 const HomePage = () => {
 
@@ -19,6 +19,11 @@ const HomePage = () => {
   const {data: outgoingFriendReqs} = useQuery({
     queryKey: ["users"],
     queryFn: getOutgoingFriendReqs
+  })
+
+  const {mutate: sendRequestMutation,isPending} = useMutation({
+    mutationFn: sendFriendRequest,
+    onSuccess: () => queryClient.invalidateQueries({queryKey: ["outgoingFriendReqs"]})
   })
 
   return (
