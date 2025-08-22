@@ -34,7 +34,7 @@ const HomePage = () => {
   });
 
   const { mutate: sendFriendRequestMutation, isPending } = useMutation({
-    mutationFn: sendFriendRequest,
+    mutationFn: (userId) => sendFriendRequest(userId),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["outgoingFriendReqs"] }),
   });

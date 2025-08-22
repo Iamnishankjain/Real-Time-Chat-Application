@@ -62,8 +62,8 @@ export async function sendFriendRequest(req, res) {
     // Check if recipient has already sent a friend request
     const isFriendRequestSent = await FriendRequest.findOne({
       $or: [
-        { sender: myId, recipient: reciepientId },
-        { sender: reciepientId, recipient: myId }
+        { sender: myId, receiver: reciepientId },
+        { sender: reciepientId, receiver: myId }
       ],
     });
 
@@ -74,7 +74,7 @@ export async function sendFriendRequest(req, res) {
     // Create a new friend request
     const friendRequest = await FriendRequest.create({
       sender: myId,
-      recipient: reciepientId,
+      receiver: reciepientId,
     });
 
     res.status(201).json(friendRequest);
@@ -142,7 +142,7 @@ export async function getOutgoingFriendReqs(req, res) {
   try {
     const outgoingRequests = await FriendRequest.find({
        sender: req.user.id, status: 'pending' 
-      }).populate('recipient', 'fullName profilePicture nativeLanguage learningLanguage');
+      }).populate('receiver', 'fullName profilePicture nativeLanguage learningLanguage');
     res.status(200).json(outgoingRequests);
   } catch (error) {
     console.error('Error fetching outgoing friend requests:', error);
