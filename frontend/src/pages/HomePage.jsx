@@ -16,6 +16,11 @@ const HomePage = () => {
     queryFn: getRecommandedUsers
   })
 
+  const {data: outgoingFriendReqs} = useQuery({
+    queryKey: ["users"],
+    queryFn: getOutgoingFriendReqs
+  })
+
   return (
     <div>
       
