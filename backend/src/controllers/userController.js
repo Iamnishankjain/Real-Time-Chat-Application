@@ -96,7 +96,7 @@ export async function acceptFriendRequest(req, res) {
     }
 
     // Check if the current user is the recipient of the friend request
-    if (friendRequest.recipient.toString() !== req.user.id) {
+    if (friendRequest.receiver.toString() !== req.user.id) {
       return res.status(403).json({ message: 'You are not authorized to accept this friend request' });
     }
 
@@ -105,10 +105,10 @@ export async function acceptFriendRequest(req, res) {
 
     // Add each other to friends list 
     await User.findByIdAndUpdate(friendRequest.sender, {
-      $addToSet: { friends: friendRequest.recipient }
+      $addToSet: { friends: friendRequest.receiver }
     });
 
-    await User.findByIdAndUpdate(friendRequest.recipient, {
+    await User.findByIdAndUpdate(friendRequest.receiver, {
       $addToSet: { friends: friendRequest.sender }
     });
 
@@ -123,7 +123,7 @@ export async function acceptFriendRequest(req, res) {
 
 export async function getFriendRequest(req, res) {
   try {
-    const incomingReqs = await FriendRequest.find({ recipient: req.user.id, status: 'pending' }).populate('sender', 'fullName profilePicture nativeLanguage learningLanguage');
+    const incomingReqs = await FriendRequest.find({ receiver: req.user.id, status: 'pending' }).populate('sender', 'fullName profilePicture nativeLanguage learningLanguage');
 
     const acceptedReqs = await FriendRequest.find({ sender: req.user.id, status: 'accepted' }).populate('receiver', 'fullName profilePicture');
 
