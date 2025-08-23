@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard.jsx";
 import NoFriend from "../components/NoFriend.jsx";
 import NoRecommandedUsersFound from "../components/NoRecommandedUsersFound.jsx";
+import { capitalize } from "../lib/utils.js";
 
 
 const HomePage = () => {
@@ -177,4 +178,3 @@ const HomePage = () => {
 export default HomePage;
 
 
-const capitalize = (str) => str.charAt(0).toUpperCase()+str.slice(1);
