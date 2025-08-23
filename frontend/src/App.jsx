@@ -16,6 +16,7 @@ import Layout from "./components/Layout.jsx";
 // Custom hook to fetch authenticated user data
 import useAuthUser from "./hooks/useAuthUser.js";
 import { useThemeStore } from "./store/useThemeStore.js";
+import Friends from "./pages/Friends.jsx";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -91,9 +92,11 @@ const App = () => {
           element={
             isAuthenticated ? (
               !isOnboarded ? (
-                <OnboardingPage/>
+                <Navigate to="/onboarding" />
               ) : (
-                <Navigate to="/friends" />
+                <Layout showSidebar={true}>
+                  <Friends/>
+                </Layout>
               )
             ) : (
               <Navigate to="/login" />
