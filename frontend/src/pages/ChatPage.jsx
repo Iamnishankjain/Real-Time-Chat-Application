@@ -30,7 +30,7 @@ const ChatPage = () => {
 
   const {data:tokenData} = useQuery({
     queryKey:["streamToken"],
-    queryFn: getStreamToken(),
+    queryFn: getStreamToken,
     enabled: !!authUser      //this run when authUser is available
   })
 
@@ -66,13 +66,23 @@ const ChatPage = () => {
       }
     }
     initChat();
-  },[])
+  },[tokenData,authUser,targetUserId])
 
   if(loading || !chatClient || !channel) return <ChatLoader/>;
 
   return (
-    <div>
-      chatpage
+    <div className='h-[93vh]'>
+      <Chat client={chatClient}>
+        <Channel channel={channel}>
+          <div className='w-full relative'>
+            <Window>
+              <ChannelHeader/>
+              <MessageList/>
+              <MessageInput focus/>
+            </Window>
+          </div>
+        </Channel>
+      </Chat>
     </div>
   )
 }
