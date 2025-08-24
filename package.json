@@ -1,0 +1,22 @@
+{
+  "name": "real-time-chat-application",
+  "version": "1.0.0",
+  "description": "A **Real-Time Chat Application** built using the **MERN stack (MongoDB, Express, React, Node.js)**.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "satrt": "npm run satrt --prefix backend" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Iamnishankjain/Real-Time-Chat-Application.git"
+  },
+  "keywords": [],
+  "author": "NISHANK JAIN",
+  "license": "NJ",
+  "bugs": {
+    "url": "https://github.com/Iamnishankjain/Real-Time-Chat-Application/issues"
+  },
+  "homepage": "https://github.com/Iamnishankjain/Real-Time-Chat-Application#readme"
+}
