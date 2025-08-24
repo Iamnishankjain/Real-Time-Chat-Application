@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard.jsx";
 import NoFriend from "../components/NoFriend.jsx";
 import NoRecommandedUsersFound from "../components/NoRecommandedUsersFound.jsx";
-import { capitalize } from "../lib/utils.js";
+import { capitalize } from "../library/utils.js";
 
 
 const HomePage = () => {
