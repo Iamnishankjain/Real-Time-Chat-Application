@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
 import useAuthUser from '../hooks/useAuthUser';
 import { useQuery } from '@tanstack/react-query';
-import { getStreamToken } from '../lib/api.js';
+import { getStreamToken } from '../library/api.js';
 import {StreamChat} from 'stream-chat'
 import ChatLoader from '../components/ChatLoader.jsx';
 import {

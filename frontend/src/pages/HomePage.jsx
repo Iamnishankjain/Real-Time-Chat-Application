@@ -5,7 +5,7 @@ import {
   getRecommandedUsers,
   getUserFriends,
   sendFriendRequest,
-} from "../lib/api.js";
+} from "../library/api.js";
 import { CheckCircleIcon, MapPinIcon, UserPlusIcon, UsersIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard.jsx";

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   getUserFriends,
-} from "../lib/api.js";
+} from "../library/api.js";
 import { UsersIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import FriendCard from "../components/FriendCard.jsx";
