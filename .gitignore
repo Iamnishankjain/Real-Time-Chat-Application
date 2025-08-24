@@ -237,7 +237,6 @@ coverage.xml
 # Build directories
 build/
 dist/
-lib/
 lib64/
 parts/
 sdist/
