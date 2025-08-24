@@ -58,8 +58,8 @@ const ChatPage = () => {
 
         setChatClient(client);
         setChannel(currentChannel);
-      }catch(err){
-        console.err("Error initializing chat:",error);
+      }catch(error){
+        console.error("Error initializing chat:",error);
         toast.error("could not connect to chat.please try again");
       }finally{
         setLoading(false);
@@ -81,6 +81,7 @@ const ChatPage = () => {
               <MessageInput focus/>
             </Window>
           </div>
+          <Thread />
         </Channel>
       </Chat>
     </div>
